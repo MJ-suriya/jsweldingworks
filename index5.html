@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Welding Works</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"> -->
+ 
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+      
+    
+
+        section {
+            height: 100vh;
+           
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        
+        .carousel-caption h2 {
+font-weight: bold;
+font-size: 38px;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+}
+.carousel-caption p {
+font-weight: 400;
+font-size: 25px;
+text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+.carousel-control-prev,
+.carousel-control-next {
+
+top: 40%; 
+transform: translateY(-50%);
+width:60px;
+height:20px; 
+}
+.carousel-control-prev,
+.carousel-control-next {
+padding: 25px; 
+margin:40px;
+background-color: rgba(255, 255, 255, 0.5);
+border-radius: 50%;
+
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+font-weight:bold;
+color: #000; 
+padding: 14px; 
+margin:30; 
+}
+@keyframes slideFromStripes {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    left: 0;
+    opacity: 0;
+  }
+  30% {
+    left: 10%;
+    opacity: 1;
+  }
+  60% {
+    left:10%;
+    opacity: 1;
+  }
+  100% {
+    left:10%;
+    opacity: 0;
+  }
+}
+.carousel-indicators {
+    display: none;
+  }
+@media (max-width: 768px) {
+    .carousel-caption {
+     padding:10px;
+      overflow-wrap: break-word;
+    }
+    .carousel-caption h2 {
+font-weight: bold;
+font-size: 1.5rem;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+white-space: normal; /* Allow wrapping of long words */
+      word-wrap: break-word; /* Break long words if necessary */
+      overflow: hidden; /* Hide overflowing text */
+      text-overflow: ellipsis; /
+}
+.carousel-caption p {
+    text-align: center; 
+font-weight: 400;
+font-size: 1rem;
+text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+white-space: normal; /* Allow wrapping of long words */
+      word-wrap: break-word; /* Break long words if necessary */
+      overflow: hidden; /* Hide overflowing text */
+      text-overflow: ellipsis; /
+}
+/* .carousel-inner img {
+  width: 100%;
+  height:180px;
+} */
+/* #home{
+    height:180px;
+} */
+
+
+.carousel-indicators {
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+      white-space: nowrap; /* Prevent wrapping */
+     /*  font-size: 0; Remove white space between inline elements */
+    }
+    .carousel-indicators button {
+      display: inline-block; /* Display buttons inline */
+      width: 6px; /* Adjust the width of each indicator */
+      height: 6px; /* Adjust the height of each indicator */
+      margin-right: 5px; /* Adjust the right margin between indicators */
+     /* font-size: initial;  Reset font size */
+    }
+
+    .carousel-control-prev,.carousel-control-next{
+        display:none;
+    }
+
+    @keyframes slideFromStripes {
+        0% {
+    left: -100%;
+    opacity: 0;
+  }
+  10% {
+    left: 0;
+    opacity: 1;
+  }
+  90% {
+    left: 0;
+    opacity: 1;
+  }
+  100% {
+   
+    opacity: 1;
+  }
+}
+}
+
+.carousel-inner img {
+  width: 100%;
+  height:100vh;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: slideFromStripes 5s infinite;
+}
+
+.navbar {
+           
+           /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5); */
+           overflow: hidden;
+          
+       }
+       .navbar .container{
+        padding-right:0;
+       }
+       .navbar-nav .nav-link {
+           /* color: #333; */
+           color:white;
+           /* text-transform: uppercase; */
+           font-weight: bold;
+           font-size: 19px;
+           transition: all 0.3s ease;
+       }
+     
+       .navbar-brand {
+        text-transform: uppercase; 
+           color: #fff !important;
+           font-weight: bold;
+           font-size:24px;
+       }
+       /* Animation for navbar */
+     
+       .navbar {
+           animation: bounceIn 0.5s ease-out;
+       }
+  
+/* Navigation links */
+.navbar-nav .nav-link {
+   position: relative;
+   color: white; /* Default color */
+}
+
+         #about {
+           /* background-color: #fff; */
+           /* background-color: #1a098de3; */
+           background: linear-gradient(50deg, #1a098de3, #fff);
+           padding:50px;
+           
+       }
+
+       #services {
+           background-color: #f8f9fa;
+       }
+
+       /* #projects {
+           background-color: #fff;
+       } */
+       .image-container img {
+    width: 330px;
+    height: 200px;
+    margin: 20px;
+    border-radius: 12px; /* Add border radius */
+    transition: transform 0.3s ease; /* Add transition for smooth zoom effect */
+}
+
+.image-container img:hover {
+    transform: scale(1.15); /* Zoom effect on hover */
+}
+
+       #contact {
+           background-color: #f8f9fa;
+       }
+
+
+@media (max-width: 992px) {
+           .navbar-collapse {
+               position: fixed;
+               top: 0;
+               right: auto;
+               bottom: 0;
+               left: -250px; /* Adjust the left value as needed */
+               width: 250px; /* You can adjust the width as needed */
+               overflow-y: auto;
+               overflow-x: hidden;
+               transition: transform 0.3s ease-in-out;
+               background-color: #f8f9fa;
+              
+           }
+           .navbar-collapse.show {
+               transform: translateX(250px); /* Adjust the translateX value based on the width */
+           }
+          
+           .navbar-nav .nav-link {
+           /* color: #343a40;  */
+           color:white;
+           padding: 10px 20px; /* Padding for better spacing */
+           display: block; /* Make links block-level for full width */
+          /* Center align text */
+           transition: background-color 0.3s; /* Transition effect for hover */
+       }
+       .navbar-nav .nav-link:hover {
+           background-color: #e9ecef; /* Background color on hover */
+       }
+      
+.short-nav{
+    
+  display:flex;
+   padding:20px 10px 2px 25px;
+   /* color:#333; */
+   color:white;
+   font-size: 25px;
+   z-index: 1000;
+   
+}
+.navbar-brand{
+   margin-left: 15px;
+   margin-right: 0;
+}
+.brand{
+   
+  
+   color:#000;
+   font-weight: bold;
+}
+.close-button {
+               position: absolute;
+               top: 15px;
+               right: 25px;
+               cursor: pointer;
+           }
+       }
+       @media (min-width: 993px) {
+           .short-nav {
+               display: none;
+           }
+       }
+       /* .navbar{
+        background-color: #040464;
+        height:65px;
+       } */
+     .email-contact{
+        background-color: #040464;
+        color:#ffffff;
+       padding:1px;
+     }
+     .email-contact p{
+        margin-top: 6px;
+        margin-bottom:0px;
+        padding-bottom: 7px;
+        margin-left: 18px;
+     }
+     .email-contact i{
+        padding-top:4px;
+        font-size:16px;
+     }
+   
+    .about-img {
+    width: 410px;
+    height: 520px;
+    margin:40px;
+        border-radius: 12px;
+    transition: width 0.3s ease, height 0.3s ease; /* Add transition effect */
+}
+
+.about-img:hover {
+    width: 450px; /* Increase width on hover */
+    height: 570px; /* Increase height on hover */
+}
+
+    .about-content{
+        display:flex;
+    }
+   .about-text{
+    padding:50px;
+   }
+    .about-text p {
+    
+    font-size: 20px;
+    transition: font-size 0.3s ease; /* Add transition effect */
+}
+
+.about-text p:hover {
+    font-size: 22px; /* Increase font size on hover */
+}
+
+
+    #about h2{
+        color:white;
+    }
+
+    #services .container {
+            /* max-width: 800px; */
+            margin: 0 auto;
+            padding: 20px;
+        }
+           #services{
+            background: linear-gradient(50deg, #fff, #491bec);
+
+            padding:20px;
+           }
+        /* Service Styles */
+        .service {
+            /* display: flex; */
+            margin-bottom: 20px;
+            padding:10px;
+        }
+
+        .service-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .service-image {
+            width: 150px;
+            height: 150px;
+            margin:15px;
+            /* border-radius: 50%; */
+            margin-right: 20px;
+            border: 2px solid #ccc;
+        }
+
+        .service-description {
+            flex: 1;
+        }
+
+        /* Additional Styles */
+        .service-description h2 {
+            margin-top: 0;
+        }
+
+        .service-description p {
+            margin-bottom: 0;
+            font-size:20px;
+        }
+        #services h3{
+            color:#040464;
+            margin:10px;
+        }
+        #services h2{
+            color:#fff;
+        }
+
+        #projects{
+            /* background: linear-gradient(-100deg,#491bec 50%, #fff 50%); */
+            background: linear-gradient(75deg,#3806ee, #fff);
+            padding:20px;
+           }
+           .project-container {
+    margin-bottom: 20px;
+}
+.project-container {
+    margin-bottom: 20px;
+}
+
+.project-container h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+/* .project-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.project-gallery img {
+    width: calc(25% - 10px);
+    margin: 5px;
+} */
+
+.project-gallery {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.image-container {
+    width: 25%; /* Each container takes up 25% of the parent width */
+    flex-grow: 1; /* Allow containers to grow to fill the space evenly */
+    box-sizing: border-box; /* Include padding and border in the container's total width */
+    padding: 5px; /* Add padding to create space between containers */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.image-container img {
+    width: 100%; /* Make sure the image fills the container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure images don't have extra space below them */
+}
+
+.see-more-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.iframe-container {
+  
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.iframe-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+/* .iframe-content img {
+    width: 150px; 
+    height: 100px;
+    margin: 5px; 
+} */
+
+
+
+.iframe-content {
+    position: absolute; /* Change to absolute positioning */
+    top: 50%; /* Move 50% down from the top */
+    left: 50%; /* Move 50% from the left */
+    transform: translate(-50%, -50%); /* Center the content */
+    width: 80%;
+    max-width: 800px;
+    max-height: 80%;
+    background-color: #fff;
+    padding: 20px;
+    overflow-y: auto;
+    /* border-radius: 10px; */
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.carousel-item h1 {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+    /* z-index:999; */
+    font-family: 'Montserrat', sans-serif; 
+}
+.whatsapp-icon {
+    position: fixed;
+    bottom: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    z-index: 999; /* Ensure it's above other content */
+    background-color: #25d366; /* WhatsApp green */
+    color: #fff; /* Icon color */
+    width: 50px; /* Adjust width and height as needed */
+    height: 50px;
+    border-radius: 50%; /* Make it round */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.whatsapp-icon:hover {
+    background-color: #128c7e; /* Darker green on hover */
+}
+
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 90px;
+    right: 32px;
+    display: none; 
+    font-size: 24px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+
+/* Define CSS animation */
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animation to service-content */
+/* .service-content {
+  animation: slideInFromLeft 0.5s ease-out forwards;
+} */
+
+/* Apply animation when visible */
+
+
+/* Apply animation when visible */
+.service {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.5s ease-out, transform 0.3s ease-out;
+}
+
+.service.visible{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  background: linear-gradient(
+    rgba(190,190,190,0.5),  /* Black at the top */
+   
+    rgba(0,0,0,0.3) 30%, 
+    rgba(0,0,0,0.3) 70%,
+   
+    rgba(0,0,0,0.7) /* Black at the bottom */
+  );
+}
+
+.carousel-caption {
+    position: absolute;
+    top:30%;
+    /* bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); */
+    color: #fff; /* Set the text color to white or any other desired color */
+}
+
+.navbar {
+  
+  /* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3)); */
+  background-color: rgba(50, 50, 50, 0.8);
+}
+
+
+/* #navbar {
+   z-index:999;
+  position: fixed;
+  width: 100%;
+  transition: top 0.3s ease;
+} */
+
+
+
+
+
+.navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 99;
+            height: 75px; /* Increased height */
+            background-color: #000; /* Change as per your design */
+            transition: height 0.3s; /* Smooth transition */
+        }
+        .navbar-toggler {
+            display: none;
+        }
+
+        /* Show the navbar toggle button when the navbar is fixed */
+        .navbar-fixed .navbar-toggler {
+            display: block;
+        }
+
+        @media (min-width: 991px) {
+            .navbar-toggler {
+                display: none !important;
+            }
+        }
+  </style>
+  <script>
+ 
+
+    // Function to check if an element is in the viewport
+// Function to check if an element is in the viewport
+function isInViewport(element) {
+  var rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
+
+// Function to handle scroll event
+function handleScroll() {
+  var serviceSections = document.querySelectorAll('.service');
+  serviceSections.forEach(function(section) {
+    if (isInViewport(section)) {
+      section.classList.add('visible');
+    } else {
+      section.classList.remove('visible'); // Remove visible class if not in viewport
+    }
+  });
+}
+
+// Attach scroll event listener
+window.addEventListener('scroll', handleScroll);
+
+// Trigger on page load
+handleScroll();
+
+
+window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const toggleButton = document.getElementById('nav-toggle-button');
+            const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+            if (window.scrollY > 0) {
+                navbar.classList.add('navbar-fixed');
+                toggleButton.style.display = 'block';
+                scrollToTopBtn.style.display = "block";
+            } else {
+                navbar.classList.remove('navbar-fixed');
+                toggleButton.style.display = 'none';
+                scrollToTopBtn.style.display = "none";
+            }
+        });
+
+
+
+// When the user clicks on the button, scroll to the top of the document
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+  </script>
+</head>
+<body>
+    <header>
+        <div class="email-contact">
+            <p><i class='bx bx-envelope'></i> jsweldingworks88@gmail.com | <i class='bx bx-phone'></i> +91 9790265785</p>
+        </div>
+        
+<nav class="navbar navbar-expand-lg navbar-dark  p-2" id="navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#">JS Welding Works</a>
+        <button id="nav-toggle-button"class="navbar-toggler toggler-left" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon white-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <div class="short-nav" >
+                <p style="font-size:18px;"class="brand">JS Welding Works</p>
+                <span class="close-button" data-toggle="collapse" data-target="#navbarNav" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </span>
+            </div>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#projects">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</header>
+
+<button onclick="scrollToTop()" id="scrollToTopBtn" title="Go to top">&#8593;</button>
+
+<div class="whatsapp-icon">
+    <a style="text-decoration: none;color:inherit;"href="https://wa.me/919360614261
+    " target="_blank" rel="noopener noreferrer">
+        <i style="font-size:43px;" class='bx bxl-whatsapp'></i>
+    </a>
+</div>
+
+<section id="home">
+   
+<div  id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="hover">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+        
+      </div>
+     
+    <div class="carousel-inner" id="carouselInner">
+       
+        <div class="carousel-item active" >
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+           
+            <img src="image/2.jpg" class="d-block w-100" alt="...">
+           <div class="carousel-caption d-md-block">
+                <h2>Professional Grinding & Crafting</h2>
+                <p>We handle both Steel and Stainless Steel including GA metals.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+            <img src="image/13.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <h2>Professional Welding Services</h2>
+                <p>Our team specializes in precise welding techniques.</p>
+
+            </div>
+        </div>
+        <div class="carousel-item">
+           
+            <img src="images/n4.webp" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <!-- <h1 class="h1">JS Welding Works</h1> -->
+                <h2>Expert Welding Services</h2>
+                <p>Our team can handle extreme precise welding works.</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+            <img src="images/15.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <h2>Expert Shed Constructions</h2>
+                <p>We construct sheds using cooling sheets based on customer needs</p>    
+            </div>
+        </div>
+        <div class="carousel-item">
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+            <img src="images/n3.webp" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <h2>Precision Cutting Services</h2>
+                <p>We offer precise cutting services for various materials.</p>
+           </div>
+         </div>
+        <div class="carousel-item">
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+            <img src="image/12.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <h2>Expert Drilling Services</h2>
+                <p>Precision drilling solutions for your projects.</p>
+                
+            </div>
+        </div>
+          <div class="carousel-item">
+            <!-- <h1 class="h1">JS Welding Works</h1> -->
+            <img src="image/16.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-md-block">
+                <h2>Expert Gas Cutting Services</h2>
+                <p>specialized plasma cuttings for your projects.</p>
+                
+            </div>
+        </div>
+
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+<!-- <section id="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>JS Welding Works is a leading provider of welding solutions. Our team consists of highly skilled professionals with years of experience in the field.</p>
+    </div>
+</section> -->
+<section id="about">
+    <div class="container">
+        <h2>About Us</h2>
+        <div class="about-content">
+            <div class="about-image">
+                <img class="about-img"src="image/shop.jpg" alt="JS Welding Works">
+            </div>
+            <div class="about-text">
+                
+                <p>Welcome to JS Welding Works - Your Premier Destination for Quality Welding and Fabrication Services in Southern Tamil Nadu!</p>
+                    
+                    <p>
+                    Established in 2020 by Mr. A. Muthu Ramalingam, JS Welding Works specializes in gate works, shed installations, hand railing, and other fabrication services. Serving clients across southern Tamil Nadu, including Tuticorin and Tirunelveli, we are committed to delivering top-notch products and services at competitive prices. </p>
+                    <p>
+                    Under Mr. Ramalingam's leadership, we prioritize quality and affordability, ensuring customer satisfaction with every project. From constructing sheds to hand railing installations, we guarantee durability and functionality in all our work. </p>
+                    <p>
+                    As we expand our operations, our mission remains unchanged: to provide premium quality services that meet the diverse needs of our customers. Partner with JS Welding Works for all your welding and fabrication requirements, and experience excellence at every step.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <section id="services">
+    <div class="container">
+        <h2>Our Services</h2>
+        <p>We offer a wide range of welding services, including metal fabrication, structural welding, and repairs. Our goal is to deliver exceptional results to our clients.</p>
+    </div>
+</section> -->
+<section style="height:auto;" id="services">
+    
+    <div class="container">
+        <h2>Our Services <i class='bx bx-wrench'></i></h2>
+
+        <!-- Materials -->
+       
+        <div class="service">
+            <h3>Materials</h3>
+            <div class="service-content">
+                <img src="images/s2.webp" alt="Materials" class="service-image">
+                <div class="service-description">
+                    
+                    <p>We have extensive experience working with a wide range of materials, including steel, aluminum, stainless steel,GA metals and exotic alloys. Our specialized expertise allows us to handle diverse welding projects with precision and efficiency.</p>
+                </div>
+                
+            </div>
+        </div>
+
+
+         <!-- Types of Welding -->
+        
+         <div class="service">
+            <h3>Welding Services</h3>
+            <div class="service-content">
+                <div class="service-description">
+               
+                   
+                    <p>We specialize in Arc welding. Arc welding is a versatile and widely used welding technique that involves the use of an electric arc to melt and join metals. It is suitable for welding a wide range of materials, including steel,GA metal and stainless steel. Our expertise in Arc welding allows us to deliver high-quality welds for diverse applications, ensuring durability and structural integrity.</p>
+                </div>
+                <img src="images/s1.avif" alt="Types of Welding" class="service-image">
+            </div>
+        </div>
+        
+
+      
+        
+        
+        <div class="service">
+            <h3>Grill Gates Making and Fabrication</h3>
+            <div class="service-content">
+                <img src="images/s13.jpg" alt="Grill Gates Making and Fabrication" class="service-image">
+                <div class="service-description">
+                    
+                    <p>We specialize in grill gates making and fabrication, crafting durable and stylish gates tailored to your specifications. Using high-quality metals like steel and stainless steel, we ensure robust construction and long-lasting performance. Our team collaborates closely with customers to understand their requirements and preferences, delivering custom-designed grill gates that enhance security and aesthetics while ensuring satisfaction.</p>
+                </div>
+              
+            </div>
+        </div>
+        
+
+              <div class="service">
+                <h3>MS and Stainless Steel Handrailing</h3>
+
+            <div class="service-content">
+                
+                <div class="service-description">
+                   
+                    <p>We specialize in crafting handrails from MS and stainless steel, providing sturdy and elegant solutions for safety and aesthetics. Our handrails are custom-designed to fit your space and style preferences, ensuring both functionality and visual appeal. With a focus on quality and precision, we deliver handrailings that meet the highest standards of durability and customer satisfaction.</p>
+                </div>
+                <img src="images/s15.jpg" alt="MS and Stainless Steel Handrailing" class="service-image">
+            </div>
+        </div>
+        
+        
+        <!-- Industries Served -->
+        
+        <div class="service">
+            <h3>Cooling Sheet Shed Works</h3>
+            <div class="service-content">
+                <img src="images/s4.jpg" alt="Cooling Sheet Shed Works" class="service-image">
+                <div class="service-description">
+                   
+                    <p>We specialize in designing and fabricating cooling sheet sheds for various industries. Whether small-scale or large industrial, our sheds offer effective temperature control and protection for equipment and materials. We tailor designs for optimal airflow, energy efficiency, and durability, ensuring the highest standards of performance and satisfaction.</p>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="service">
+            <h3>Asbestos Sheet Works</h3>
+            <div class="service-content">
+              
+                <div class="service-description">
+                    
+                    <p>We specialize in asbestos sheet works, offering expert fabrication and installation services for various applications. Our team ensures precise cutting, shaping, and installation of asbestos sheets, adhering to safety regulations and industry standards. From roofing to insulation, we provide durable and reliable solutions tailored to your needs.</p>
+                </div>
+                <img src="images/s5.jpg" alt="Asbestos Sheet Works" class="service-image">
+            </div>
+        </div>
+        
+          <!-- Capabilities -->
+         
+          <div class="service">
+            <h3>Capabilities</h3>
+              <div class="service-content">
+                  <img src="images/s3.webp" alt="Capabilities" class="service-image">
+                  <div class="service-description">
+                     
+                      <p>Our company can handle projects of various sizes and scopes. Whether you require small-scale repairs, large structural fabrication, custom fabrication, or production welding for industrial applications, we have the capabilities to deliver outstanding results.</p>
+                  </div>
+              </div>
+          </div>
+
+          
+        <!-- Customization -->
+       
+        <div class="service">
+            <h3>Customization</h3>
+            <div class="service-content">
+                
+                <div class="service-description">
+                    
+                    <p>We specialize in providing customized solutions to meet our clients' unique needs. Whether you require custom metal fabrication, prototyping, or specialized welding techniques for specific applications, we have the expertise to fulfill your requirements.</p>
+                </div>
+                <img src="images/s6.webp" alt="Customization" class="service-image">
+            </div>
+        </div>
+
+        <!-- Quality Assurance -->
+        
+        <div class="service">
+            <h3>Quality Assurance</h3>
+            <div class="service-content">
+                <img src="images/s7.jpg" alt="Quality Assurance" class="service-image">
+                <div class="service-description">
+                  
+                    <p>We are committed to maintaining the highest standards of quality craftsmanship. Our team adheres to industry standards and certifications to ensure the quality and reliability of our work. We have rigorous quality control processes in place to guarantee that every project meets or exceeds our clients' expectations.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- On-Site Services -->
+        
+        <div class="service">
+            <h3>On-Site Services</h3>
+            <div class="service-content">
+                
+                <div class="service-description">
+                    
+                    <p>In addition to our workshop services, we offer on-site welding services for clients who require work to be done at their location. Our skilled welders can perform welding tasks efficiently and effectively on-site, ensuring minimal disruption to your operations.</p>
+                </div>
+                <img src="images/s10.jpg" alt="On-Site Services" class="service-image">
+            </div>
+        </div>
+
+       
+
+        <!-- Consultation and Design -->
+        
+        <div class="service">
+            <h3>Consultation and Design</h3>
+            <div class="service-content">
+                <img src="images/s9.jpg" alt="Consultation and Design" class="service-image">
+                <div class="service-description">
+                    
+                    <p>In addition to our welding services, we provide consulting and design assistance to help clients with project planning, design optimization, and material selection. Our team of experts collaborates closely with clients to understand their objectives and deliver customized solutions that meet their needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Services -->
+      
+    </div>
+</section>
+<!-- <section id="projects">
+    <div class="container">
+        <h2>Projects</h2>
+        <p>Take a look at some of our past welding projects. We have successfully completed projects for various industries, delivering high-quality workmanship every time.</p>
+    </div>
+</section> -->
+
+
+       
+        
+        <!-- Gates and Grill Works Container -->
+        <section style="height: auto;" id="projects">
+            <div class="container">
+                <h2>Projects</h2>
+                <p>Take a look at some of our past welding projects. We have successfully completed projects for various industries, delivering high-quality workmanship every time.</p>
+                <!-- <div class="project-container">
+                    <h3>Gates and Grill Works</h3>
+                    <div class="project-gallery" id="project-gallery-ms">
+    
+                    </div>
+                    <button class="see-more-btn" onclick="showIframe('msgates')">See More</button>
+                    <div class="iframe-container hidden" style="display:none;" id="msgates-iframe">
+                        <div class="iframe-content">
+                            <span class="close-btn" onclick="closeIframe('gates')">&times;</span>
+                           
+                        </div>
+                        
+                    </div>
+                </div> -->
+                <div class="project-container">
+                    <h3>Gates and Grill Works</h3>
+                    <div class="project-gallery" id="project-gallery-ms"></div>
+                    <button class="see-more-btn" onclick="showIframe('msgallery')">See More</button>
+                    <div class="iframe-container hidden" style="display:none;" id="msgallery-iframe">
+                        <div class="iframe-content">
+                            <span class="close-btn" onclick="closeIframe('msgallery')">&times;</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-container">
+                    <h3>Second Gallery</h3>
+                    <div class="project-gallery" id="project-gallery-ss"></div>
+                    <button class="see-more-btn" onclick="showIframe('ssgallery')">See More</button>
+                    <div class="iframe-container hidden" style="display:none;" id="ssgallery-iframe">
+                        <div class="iframe-content">
+                            <span class="close-btn" onclick="closeIframe('ssgallery')">&times;</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-container">
+                    <h3>Rail Gallery</h3>
+                    <div class="project-gallery" id="project-gallery-rail"></div>
+                    <button class="see-more-btn" onclick="showIframe('railgallery')">See More</button>
+                    <div class="iframe-container hidden" style="display:none;" id="railgallery-iframe">
+                        <div class="iframe-content">
+                            <span class="close-btn" onclick="closeIframe('railgallery')">&times;</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-container">
+                    <h3>Shed Gallery</h3>
+                    <div class="project-gallery" id="project-gallery-shed"></div>
+                    <button class="see-more-btn" onclick="showIframe('shedgallery')">See More</button>
+                    <div class="iframe-container hidden" style="display:none;" id="shedgallery-iframe">
+                        <div class="iframe-content">
+                            <span class="close-btn" onclick="closeIframe('shedgallery')">&times;</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Include similar containers for other project categories -->
+            </div>
+        </section>
+<script>
+    function toggleImages(project) {
+        var hiddenImages = document.getElementById(project + "-images");
+        var seeMoreBtn = document.querySelector("." + project + "-btn");
+
+        if (hiddenImages.style.display === "none") {
+            hiddenImages.style.display = "block";
+            seeMoreBtn.textContent = "See Less";
+        } else {
+            hiddenImages.style.display = "none";
+            seeMoreBtn.textContent = "See More";
+        }
+    }
+</script>
+
+<section id="contact">
+    <div class="container">
+        <h2>Contact Us</h2>
+        <p>Have a question or need a quote? Get in touch with us today. Our team is ready to assist you with all your welding needs.</p>
+        <form action="https://formspree.io/f/mzbnwdrq" method="POST">
+            <div class="container">
+              <h2>Contact Us</h2>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="username">Your Name:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="message">Your Message:</label>
+                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+          </form>
+          
+    </div>
+</section>
+<!-- Bootstrap JS -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+      // Start carousel on hover
+      $('#carouselExampleCaptions').hover(function(){
+        $(this).carousel('cycle');
+      }, function(){
+        $(this).carousel('pause');
+      });
+  
+      // Slide interval
+      var slideInterval = setInterval(function(){
+        $('#carouselExampleCaptions').carousel('next');
+      }, 3700); // Adjust slide duration here (4000 milliseconds = 4 seconds)
+  
+      // Stop sliding when navigating with controls
+      $('#carouselExampleCaptions').on('slide.bs.carousel', function () {
+        clearInterval(slideInterval);
+      });
+  
+      // Resume sliding after sliding manually
+      $('#carouselExampleCaptions').on('slid.bs.carousel', function () {
+        slideInterval = setInterval(function(){
+          $('#carouselExampleCaptions').carousel('next');
+        }, 3700);
+      });
+    });
+  </script>
+
+  <script>
+    
+   $(document).ready(function() {
+    // Function to update the active navigation link based on scroll position
+    function updateActiveNavLink() {
+        var scrollPos = $(document).scrollTop();
+        
+        // Iterate through each section
+        $('section').each(function() {
+            var target = $(this);
+            var offset = target.offset().top;
+            var id = target.attr('id');
+            
+            // Check if the section is in view
+            if (scrollPos >= offset && scrollPos < offset + target.outerHeight()) {
+                // Update the corresponding navigation link
+                $('.navbar-nav .nav-link').removeClass('active');
+                $('.navbar-nav .nav-link[href="#' + id + '"]').addClass('active');
+            }
+        });
+    }
+
+    // Call the function on page load and scroll
+    $(document).ready(updateActiveNavLink);
+    $(window).scroll(updateActiveNavLink);
+});
+
+  </script>
+  
+  <script>
+//  document.addEventListener("DOMContentLoaded", function() {
+//     // Get the carousel inner container
+//     const carouselInner = document.getElementById('carouselInner');
+
+//     // Create the h1 element
+//     const h1Element = document.createElement('h1');
+//     h1Element.textContent = 'JS Welding Works';
+
+//     // Insert the h1 element into each carousel item
+//     const carouselItems = carouselInner.querySelectorAll('.carousel-caption');
+//     carouselItems.forEach(item => {
+//         item.insertBefore(h1Element.cloneNode(true), item.firstChild);
+//     });
+// });
+
+//     document.addEventListener("DOMContentLoaded", function() {
+//        const imageUrls = [
+//            "shopassest/msg1.jpg",
+//            "shopassest/msg5.jpg",
+//            "shopassest/msg3.jpg",
+//            "shopassest/msg4.jpg"
+//        ];
+   
+//        const projectGallery = document.getElementById('project-gallery');
+   
+//        // Loop through the image URLs and create image containers dynamically
+//        imageUrls.forEach(url => {
+//            const imageContainer = document.createElement('div');
+//            imageContainer.classList.add('image-container');
+   
+//            const img = document.createElement('img');
+//            img.src = url;
+//            img.alt = 'Gates and Grill Work';
+//            img.style.width = '330px';
+//            img.style.height = '200px';
+//            img.style.margin = '20px';
+           
+           
+//             // Ensuring all browser-specific properties are set
+    
+
+//            imageContainer.appendChild(img);
+//            projectGallery.appendChild(imageContainer);
+//        });
+//    });
+   
+document.addEventListener("DOMContentLoaded", function() {
+    const imageUrls = [
+        "shopassest/msg1.jpg",
+        "shopassest/msg5.jpg",
+        "shopassest/msg3.jpg",
+        "shopassest/msg4.jpg"
+    ];
+    const ssimageUrls = [
+        "shopassest/ssg1.jpg",
+        "shopassest/ssg2.webp",
+        "shopassest/ssg3.jpg",
+        "shopassest/ssg4.avif"
+    ];
+
+    const railimageUrls = [
+        "shopassest/rail1.jpg",
+        "shopassest/rail2.jpg",
+        "shopassest/rail3.jpg",
+        "shopassest/rail4.jpg"
+    ];
+    const shedimageUrls = [
+        "shopassest/shed1.jpg",
+        "shopassest/shed2.jpg",
+        "shopassest/shed3.jpg",
+        "shopassest/shed4.jpg"
+    ];
+    const projectGalleries = {
+        "project-gallery-ms": imageUrls,
+        "project-gallery-ss": ssimageUrls, // Add image URLs for the second gallery if needed
+        "project-gallery-rail": railimageUrls, // Add image URLs for the rail gallery if needed
+        "project-gallery-shed": shedimageUrls // Add image URLs for the shed gallery if needed
+    };
+
+    // Loop through each gallery and populate images
+    Object.keys(projectGalleries).forEach(projectId => {
+        const gallery = document.getElementById(projectId);
+        const urls = projectGalleries[projectId];
+
+        urls.forEach(url => {
+            const imageContainer = document.createElement('div');
+            imageContainer.classList.add('image-container');
+
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = 'Gates and Grill Work';
+            img.style.width = '330px';
+            img.style.height = '200px';
+            img.style.margin = '20px';
+           
+       
+
+            imageContainer.appendChild(img);
+            gallery.appendChild(imageContainer);
+        });
+    });
+});
+
+function showIframe(project) {
+    var iframe = document.getElementById(project + "-iframe");
+    var seeMoreBtn = document.querySelector("." + project + "-btn");
+    iframe.style.display = "block"; // Display the iframe
+    seeMoreBtn.style.display = "none"; // Hide the "See More" button
+}
+
+function closeIframe(project) {
+    var iframe = document.getElementById(project + "-iframe");
+    var seeMoreBtn = document.querySelector("." + project + "-btn");
+    iframe.style.display = "none"; // Hide the iframe
+    seeMoreBtn.style.display = "block"; // Show the "See More" button again
+}
+
+   
+   
+//     document.addEventListener("DOMContentLoaded", function() {
+//        const imageUrls = [
+//            "gates/g1.jpg",
+//            "gates/g9.jpg",
+//            "gates/g3.jpg",
+//            "gates/g4.jpg",
+//            "gates/g5.jpg",
+//            "gates/g6.jpg",
+//            "gates/g7.jpg",
+//            "gates/g8.jpg"
+//        ];
+   
+//        const iframeContent = document.querySelector('#gates-iframe .iframe-content');
+   
+//        // Loop through the image URLs and create image containers dynamically
+//        imageUrls.forEach(url => {
+//            const imageContainer = document.createElement('div');
+//            imageContainer.classList.add('image-container');
+   
+//            const img = document.createElement('img');
+//            img.src = url;
+//            img.alt = 'Gates and Grill Work';
+           
+//            imageContainer.appendChild(img);
+//            iframeContent.appendChild(imageContainer);
+//        });
+//    });
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to fetch images from Google Drive folder
+    async function fetchImages(folderId, iframeContent) {
+        const apiKey = 'AIzaSyBLXOlK4bJuc6uTbpnSiOjhD9H9c4v3Wak'; // Replace 'YOUR_API_KEY' with the provided API key
+        
+        const response = await fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents&fields=files(id,name,mimeType,thumbnailLink)&key=${apiKey}`);
+        const data = await response.json();
+
+        data.files.forEach(file => {
+            if (file.mimeType.startsWith('image/') && file.thumbnailLink) {
+                const imageUrl = file.thumbnailLink;
+                const imageContainer = document.createElement('div');
+                imageContainer.classList.add('image-container');
+
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = file.name;
+
+                imageContainer.appendChild(img);
+                iframeContent.appendChild(imageContainer);
+            }
+        });
+    }
+
+    // Call fetchImages function with different folder IDs and iframe containers
+    fetchImages('13zTEBSC2ActNHDFVPr_Db20O_lwmQ5Tz', document.querySelector('#msgallery-iframe .iframe-content'));
+    fetchImages('151_pD-YwAlMyNgq663Dqqqu_BhRXU-Kg', document.querySelector('#ssgallery-iframe .iframe-content'));
+    fetchImages('155FL2S3X0J07nFv-V76kdx9n-BhycxJh', document.querySelector('#railgallery-iframe .iframe-content'));
+    fetchImages('15LI0lxQHLYjGmudIlKwqSyHl7Gm0zCLH', document.querySelector('#shedgallery-iframe .iframe-content'));
+});
+
+
+
+//      function showIframe(project) {
+//        var iframe = document.getElementById(project + "-iframe");
+//        var seeMoreBtn = document.querySelector("." + project + "-btn");
+//        iframe.style.display = "block"; // Display the iframe
+//        seeMoreBtn.style.display = "none"; // Hide the "See More" button
+//    }
+   
+//    function closeIframe(project) {
+//        var iframe = document.getElementById(project + "-iframe");
+//        var seeMoreBtn = document.querySelector("." + project + "-btn");
+//        iframe.style.display = "none"; // Hide the iframe
+//        seeMoreBtn.style.display = "block"; // Show the "See More" button again
+//    }
+   
+   
+   
+       </script>
+
+
+</body>
+</html>
