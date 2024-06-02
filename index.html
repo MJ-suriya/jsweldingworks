@@ -21,7 +21,7 @@
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.1);
             background-color: #fff; /* Box background color */
             text-align: center;
             cursor: pointer; /* Change cursor to pointer on hover */
@@ -38,8 +38,9 @@
         }
 
         .converter-box h5 {
-            margin-top: 10px; /* Add some spacing between icon and text */
-            color: #212529; /* Text color */
+            margin-top: 5px; /* Add some spacing between icon and text */
+            color: #212529;
+            font-size:16px; /* Text color */
         }
     </style>
 </head>
@@ -50,22 +51,31 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
                 <div class="converter-box" onclick="window.location.href='convert.html';">
                     <i class='bx bx-refresh'></i>
                     <h5>Length Converter</h5>
                 </div>
-                <div class="converter-box" onclick="window.location.href='materials1.html';">
+            </div>
+            <div class="col-6">
+                <div class="converter-box" onclick="window.location.href='material4.html';">
                     <i class='bx bx-square'></i>
                     <h5>Materials Calculator</h5>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="converter-box" onclick="window.location.href='spacing.html';">
+                    <i class='bx bx-space-bar'></i>
+                    <h5>Spacing Calculator</h5>
                 </div>
             </div>
             <!-- Add more boxes for other features -->
         </div>
     </div>
-
+    
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
