@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Bill Maker</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+
+    <style>
+        .bill-container {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            border: 1px solid #000;
+            background-color: #f9f9f9;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .company-header {
+            border: 1px solid black;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .company-header img {
+            max-width: 900px;
+            margin-bottom: 10px;
+        }
+
+        .company-header h2 {
+            margin: 0;
+        }
+
+        .company-header p {
+            margin: 5px 0;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+
+        .bill-table, .bill-table th, .bill-table td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .bill-table th, .bill-table td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        /* Updated: Green table styling */
+        .bill-table th, .bill-table td {
+            background-color: #e6ffe6;
+        }
+
+        .pdf-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pdf-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pdf-content {
+            position: relative;
+            z-index: 10;
+            padding: 50px;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 320px; /* Adjust this based on your template */
+            left: 60px; /* Adjust this based on your template */
+            z-index: 10;
+        }
+
+        .overlay-text table {
+            width: 90%;
+            margin-top: 20px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .overlay-text table th, .overlay-text table td {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="text-center my-4">Digital Bill Maker</h2>
+
+    <div class="bill-container">
+        <div class="mb-3">
+            <label for="personName" class="form-label">Enter Person's Name</label>
+            <input type="text" id="personName" class="form-control" placeholder="Enter name" oninput="setMrMrs()">
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="mrMrs" class="form-label">MR/MRS:</label>
+                <input type="text" id="mrMrs" class="form-control" readonly>
+            </div>
+            <div class="col-md-6">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" id="date" class="form-control">
+            </div>
+        </div>
+
+        <h4 class="mt-4">Product Details</h4>
+        <div class="table-responsive">
+    <table class="table table-bordered bill-table">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Description</th>
+                <th>Rate (₹)</th>
+                <th>QTY</th>
+                <th>Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody id="productTable">
+            <tr>
+                <td>1</td>
+                <td><input type="text" class="form-control" placeholder="Description"></td>
+                <td><input type="text" class="form-control" placeholder="Rate (Optional)"></td>
+                <td><input type="text" class="form-control" placeholder="QTY (Optional)"></td>
+                <td><input type="number" class="form-control amount" placeholder="Amount" oninput="calculateTotal()"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+        <button class="btn btn-success mb-3 no-print" onclick="addRow()">Add Product</button>
+
+        <div class="mb-3 text-end">
+            <label for="total" class="form-label">Total (₹)</label>
+            <input type="number" id="total" class="form-control" readonly>
+        </div>
+        <!-- Add this line to create the Advance button -->
+<button class="btn btn-secondary mb-3 no-print" onclick="toggleAdvance()">Add Advance</button>
+
+<!-- Add this input box for the advance amount, initially hidden -->
+<div class="mb-3" id="advanceInput" style="display:none;">
+    <label for="advance" class="form-label">Advance (₹)</label>
+    <input type="number" id="advance" class="form-control" placeholder="Enter advance amount" oninput="calculateTotal()">
+</div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary no-print" onclick="generatePDF()">Convert to PDF</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+    function setMrMrs() {
+        const name = document.getElementById('personName').value;
+        const mrMrs = name ? 'MR/MRS: ' + name : '';
+        document.getElementById('mrMrs').value = mrMrs;
+    }
+
+    function addRow() {
+        const table = document.getElementById('productTable');
+        const rowCount = table.rows.length + 1;
+        const row = `
+            <tr>
+                <td>${rowCount}</td>
+                <td><input type="text" class="form-control" placeholder="Description"></td>
+                <td><input type="text" class="form-control" placeholder="Rate (Optional)"></td>
+                <td><input type="text" class="form-control" placeholder="QTY (Optional)"></td>
+                <td><input type="number" class="form-control amount" placeholder="Amount" oninput="calculateTotal()"></td>
+            </tr>
+        `;
+        table.insertAdjacentHTML('beforeend', row);
+    }
+
+    // function calculateTotal() {
+    //     let total = 0;
+    //     const amounts = document.querySelectorAll('.amount');
+    //     amounts.forEach(amount => {
+    //         const value = parseFloat(amount.value);
+    //         if (!isNaN(value)) {
+    //             total += value;
+    //         }
+    //     });
+    //     document.getElementById('total').value = total;
+    // }
+
+    function calculateTotal() {
+    let total = 0;
+    const amounts = document.querySelectorAll('.amount');
+    amounts.forEach(amount => {
+        const value = parseFloat(amount.value);
+        if (!isNaN(value)) {
+            total += value;
+        }
+    });
+
+    document.getElementById('total').value = total;
+
+    const advance = parseFloat(document.getElementById('advance').value) || 0;
+    const balance = total - advance;
+
+    if (advance > 0) {
+        document.getElementById('balance').value = balance;
+    }
+}
+
+
+    function toggleAdvance() {
+    const advanceInput = document.getElementById('advanceInput');
+    if (advanceInput.style.display === 'none') {
+        advanceInput.style.display = 'block';
+    } else {
+        advanceInput.style.display = 'none';
+    }
+}
+
+    function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const imgData = 'img.jpg'; // Use uploaded image path
+        
+        // Add background image
+        doc.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+
+        // Add form data with dotted line and spaces
+        const personName = document.getElementById('personName').value;
+        const date = document.getElementById('date').value;
+        // const total = document.getElementById('total').value;
+        const total = document.getElementById('total').value;
+    const advance = document.getElementById('advance').value || 0;
+    const balance = total - advance;
+
+        doc.setFontSize(13);
+        doc.setTextColor(0, 128, 0);
+        doc.text('M/S: ', 20, 90);
+        doc.text('................................................................................', 33, 90);
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(14);
+        doc.text(personName, 48, 90);
+
+        doc.setTextColor(0, 128, 0);
+        doc.setFontSize(13);
+        doc.text('Date: ', 140, 90);
+        doc.text('...................................', 154, 90);
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(14);
+        doc.text(date, 155, 90);
+
+        // Draw a table of product details below MR/MRS and Date
+        let startY = 100;
+        // doc.text('Product Details', 20, startY);
+        startY += 10;
+
+        // Add table headers
+        doc.setFontSize(14);
+        doc.setTextColor(0, 128, 0);
+        doc.text('S.No', 20, startY);
+        doc.text('Description', 55, startY);
+        doc.text('Rate', 107, startY);
+        doc.text('QTY', 137, startY);
+        doc.text('Amount(Rs)', 160, startY);
+        startY += 10;
+
+        // Add product data
+        const productTable = document.querySelectorAll('#productTable tr');
+        productTable.forEach((row, index) => {
+            const desc = row.cells[1].querySelector('input').value;
+            const rate = row.cells[2].querySelector('input').value;
+            const qty = row.cells[3].querySelector('input').value;
+            const amount = row.cells[4].querySelector('input').value;
+
+              // Wrap the description if it's too long
+            const wrappedDesc = doc.splitTextToSize(desc, 60);
+           
+
+            doc.setFontSize(14);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`${index + 1}`, 22, startY);
+            doc.text(wrappedDesc, 45, startY); 
+            doc.text(rate, 114, startY, { align: 'right' });
+            doc.text(qty, 145, startY, { align: 'right' });
+            doc.text(amount, 180, startY, { align: 'right' });
+           // startY += wrappedDesc.length +=10;  // Multiply by 10 to account
+           const descriptionHeight = wrappedDesc.length * 10; 
+
+// Determine the gap based on how many lines the description has
+let gap;
+if (wrappedDesc.length === 1) {
+    gap = 3;  // Single line, 5px gap
+} else if (wrappedDesc.length === 2) {
+    gap = 1;  // Two lines, 6px gap
+} else {
+    gap = -2;  // Three or more lines, 8px gap
+}
+
+// Move `startY` down by the height of the description and the calculated gap
+startY += descriptionHeight + gap;
+        });
+
+        // Add total at the bottom
+        doc.setFontSize(14);
+        doc.setTextColor(0, 128, 0);
+        // doc.text(`Total: ₹ ${total}`, 140, startY);
+       if (advance > 0) {
+    // Set text color to green for labels
+    doc.setTextColor(0, 128, 0); // Green for "Total", "Advance", "Balance"
+    doc.text('Total:', 140, 230); 
+    doc.text('Advance:', 136, 240); 
+    doc.text('Balance:', 136, 252); 
+
+    // Set text color to black for values
+    doc.setTextColor(0, 0, 0); // Black for values
+    doc.text(`Rs.${total}`, 180, 230, { align: 'right' });   // Display total value
+    doc.text(`Rs.${advance}`, 180, 240, { align: 'right' }); // Display advance value
+    doc.text(`Rs.${balance}`, 180, 252, { align: 'right' }); // Display balance value
+} else {
+    // Set text color to green for "Total" label
+    doc.setTextColor(0, 128, 0); // Green for "Total"
+    doc.text('Total:', 140, 250); 
+
+    // Set text color to black for the total value
+    doc.setTextColor(0, 0, 0); // Black for value
+   
+    doc.text(`Rs.${total}`, 180, 250, { align: 'right' });
+}
+doc.setTextColor(0, 128, 0); 
+doc.text(`Thank You`, 105, 260, { align: 'center' });
+doc.setFontSize(13)
+doc.setFont("times", "italic");
+doc.setTextColor(0, 0, 255); // Blue color
+doc.text(`A.Muthu Ramalingam`, 153, 278);
+doc.setFont("helvetica", "normal");
+doc.setTextColor(0, 128, 0); 
+doc.text(`For JSWeldingWorks`, 150, 284);
+doc.text(`https://js-welding-works.web.app/`, 15, 284);
+
+        // Save the PDF
+        doc.save('digital_bill.pdf');
+    }
+</script>
+
+
+</body>
+</html>
