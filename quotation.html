@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Welding Works Quotation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container my-4">
+    <h2 class="text-center">JS Welding Works Quotation Generator</h2>
+
+    <div class="mb-3">
+        <label for="customerName" class="form-label">Customer Name</label>
+        <input type="text" id="customerName" class="form-control" placeholder="Enter customer name">
+    </div>
+    <div class="mb-3">
+        <label for="billingAddress" class="form-label">Billing Address</label>
+        <input type="text" id="billingAddress" class="form-control" placeholder="Enter billing address">
+    </div>
+    <div class="mb-3">
+        <label for="quotationDate" class="form-label">Quotation Date</label>
+        <input type="date" id="quotationDate" class="form-control">
+    </div>
+
+    <h4 class="mt-4">Product Details</h4>
+    <table class="table table-bordered" id="productTable">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Description</th>
+                <th>Rate</th>
+                <th>QTY</th>
+                <th>Amount (Rs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><input type="text" class="form-control" placeholder="Description"></td>
+                <td><input type="number" class="form-control" placeholder="Rate"></td>
+                <td><input type="number" class="form-control" placeholder="QTY"></td>
+                <td><input type="number" class="form-control amount" placeholder="Amount" oninput="calculateTotal()"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-success" onclick="addRow()">Add Product</button>
+
+    <div class="mb-3 text-end">
+        <label for="total" class="form-label">Total (₹)</label>
+        <input type="number" id="total" class="form-control" readonly>
+    </div>
+
+    <!-- Signature upload -->
+    <div class="mb-3">
+        <label for="signature" class="form-label">Upload Signature</label>
+        <input type="file" id="signature" class="form-control" accept="image/*">
+    </div>
+
+    <div class="text-center mt-3">
+        <button class="btn btn-primary" onclick="generatePDF()">Generate PDF</button>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- autoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    let signatureImage = '';
+
+    // Handle signature upload
+    document.getElementById('signature').addEventListener('change', function (event) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            signatureImage = e.target.result; // Get base64 string of the image
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    function addRow() {
+        const table = document.getElementById('productTable').querySelector('tbody');
+        const rowCount = table.rows.length + 1;
+        const row = `
+            <tr>
+                <td>${rowCount}</td>
+                <td><input type="text" class="form-control" placeholder="Description"></td>
+                <td><input type="number" class="form-control" placeholder="Rate"></td>
+                <td><input type="number" class="form-control" placeholder="QTY"></td>
+                <td><input type="number" class="form-control amount" placeholder="Amount" oninput="calculateTotal()"></td>
+            </tr>
+        `;
+        table.insertAdjacentHTML('beforeend', row);
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        const amounts = document.querySelectorAll('.amount');
+        amounts.forEach(amount => {
+            const value = parseFloat(amount.value) || 0;
+            total += value;
+        });
+        document.getElementById('total').value = total;
+    }
+
+    function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+
+        // Add curved effect (top-left and bottom-right)
+        //doc.setFillColor(34, 160, 165); // Custom color for curves
+        doc.setFillColor(0, 0, 255);
+        doc.circle(-50, -50, 100, 'F'); // Top-left curve
+        doc.circle(160, 300, 100, 'F'); // Bottom-right curve
+
+        // Add company details with larger font and custom color
+        doc.setFontSize(24);
+        //.setTextColor(12, 106, 144);
+        doc.setTextColor(255, 0, 0); // Custom color for "JS Welding Works"
+        doc.text("JS Welding Works", 20, 30);
+
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Reset text color
+        doc.text("Nearby Gnana Weigh Bridge, M. Saveriarpuram, Thoothukudi - 5", 20, 40);
+        doc.text("Contact: 9790265785 | WhatsApp: 9360614261", 20, 50);
+        doc.text("Email: jsweldingworks88@gmail.com | Website: https://js-welding-works.web.app", 20, 60);
+
+        // Add company logo (replace with your actual logo)
+        doc.addImage('logo.png', 'JPEG', 160, 16, 40, 40); // Logo at the top-right
+
+        // Quotation details with dark values
+        const customerName = document.getElementById('customerName').value;
+        const billingAddress = document.getElementById('billingAddress').value;
+        const quotationDate = document.getElementById('quotationDate').value;
+
+        doc.setFontSize(12);
+        doc.text('Customer Name:', 20, 80);
+        doc.setTextColor(0, 0, 0); // Set regular text color
+        doc.text(` ${customerName}`, 50, 80);
+
+        doc.setTextColor(0, 0, 0); // Reset text color
+        doc.text('Billing Address:', 20, 90);
+        doc.setTextColor(0, 0, 0);
+        doc.text(` ${billingAddress}`, 50, 90);
+
+        doc.setTextColor(0, 0, 0);
+        doc.text('Quotation Date:', 20, 100);
+        doc.setTextColor(0, 0, 0);
+        doc.text(` ${quotationDate}`, 50, 100);
+
+        // Product table
+        doc.autoTable({
+            startY: 110,
+            head: [['S.No', 'Description', 'Rate (₹)', 'QTY', 'Amount (₹)']],
+            body: Array.from(document.querySelectorAll('#productTable tbody tr')).map((row, index) => {
+                const cells = row.querySelectorAll('td');
+                return [
+                    (index + 1).toString(),
+                    cells[1].querySelector('input').value,
+                    cells[2].querySelector('input').value,
+                    cells[3].querySelector('input').value,
+                    cells[4].querySelector('input').value
+                ];
+            }),
+            theme: 'grid',
+            headStyles: { fillColor: [22, 160, 133] },
+            styles: { cellPadding: 5, fontSize: 10 },
+        });
+
+        // Background shape for total and total in words
+        doc.setFillColor(255, 245, 204); // Light yellow background
+        doc.roundedRect(15, doc.autoTable.previous.finalY + 10, 180, 25, 5, 5, 'F');
+
+        const totalAmount = document.getElementById('total').value;
+        const totalInWords = convertNumberToWords(totalAmount);
+        doc.setTextColor(0, 0, 0);
+        doc.text(`Total (Rs): ${totalAmount}`,140, doc.autoTable.previous.finalY + 20);  // Shifted to left
+        doc.text(`Total (in words): ${totalInWords}`, 35, doc.autoTable.previous.finalY + 30);  // Words below numbers
+
+        // Add the uploaded signature at bottom-right
+        if (signatureImage) {
+            doc.addImage(signatureImage, 'JPEG', 150, 270, 40, 20); // Adjusted signature to always appear at bottom-right
+        }
+
+        // Add authorization sign text in the bottom-right
+        doc.setTextColor(211,211,211);
+        doc.setFont("helvetica", "bold"); // Set the font to bold
+
+        doc.text("For JS Welding Works", 150, 290);
+
+        // Save PDF
+        doc.save(`quotation_${customerName}.pdf`);
+    }
+
+    // Function to convert numbers to Indian format words (Lakhs, Crores)
+    function convertNumberToWords(amount) {
+        const ones = [
+    '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+    'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 
+    'Seventeen', 'Eighteen', 'Nineteen', 'Twenty', 'Twenty One', 'Twenty Two', 
+    'Twenty Three', 'Twenty Four', 'Twenty Five', 'Twenty Six', 'Twenty Seven', 
+    'Twenty Eight', 'Twenty Nine', 'Thirty', 'Thirty One', 'Thirty Two', 
+    'Thirty Three', 'Thirty Four', 'Thirty Five', 'Thirty Six', 'Thirty Seven', 
+    'Thirty Eight', 'Thirty Nine', 'Forty', 'Forty One', 'Forty Two', 
+    'Forty Three', 'Forty Four', 'Forty Five', 'Forty Six', 'Forty Seven', 
+    'Forty Eight', 'Forty Nine', 'Fifty', 'Fifty One', 'Fifty Two', 
+    'Fifty Three', 'Fifty Four', 'Fifty Five', 'Fifty Six', 'Fifty Seven', 
+    'Fifty Eight', 'Fifty Nine', 'Sixty', 'Sixty One', 'Sixty Two', 
+    'Sixty Three', 'Sixty Four', 'Sixty Five', 'Sixty Six', 'Sixty Seven', 
+    'Sixty Eight', 'Sixty Nine', 'Seventy', 'Seventy One', 'Seventy Two', 
+    'Seventy Three', 'Seventy Four', 'Seventy Five', 'Seventy Six', 'Seventy Seven', 
+    'Seventy Eight', 'Seventy Nine', 'Eighty', 'Eighty One', 'Eighty Two', 
+    'Eighty Three', 'Eighty Four', 'Eighty Five', 'Eighty Six', 'Eighty Seven', 
+    'Eighty Eight', 'Eighty Nine', 'Ninety', 'Ninety One', 'Ninety Two', 
+    'Ninety Three', 'Ninety Four', 'Ninety Five', 'Ninety Six', 'Ninety Seven', 
+    'Ninety Eight', 'Ninety Nine'
+];
+
+        const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+        let words = '';
+        let num = parseInt(amount, 10);
+
+        if (num === 0) return 'Zero';
+
+        if (num >= 10000000) {
+            words += ones[Math.floor(num / 10000000)] + ' Crore ';
+            num = num % 10000000;
+        }
+
+        if (num >= 100000) {
+            words += ones[Math.floor(num / 100000)] + ' Lakh ';
+            num = num % 100000;
+        }
+
+        if (num >= 1000) {
+            words += ones[Math.floor(num / 1000)] + ' Thousand ';
+            num = num % 1000;
+        }
+
+        if (num >= 100) {
+            words += ones[Math.floor(num / 100)] + ' Hundred and ';
+            num = num % 100;
+        }
+
+        if (num > 0) {
+            if (num < 20) {
+                words += ones[num] + ' ';
+            } else {
+                words += tens[Math.floor(num / 10)] + ' ' + ones[num % 10] + ' ';
+            }
+        }
+
+        return words.trim();
+    }
+</script>
+
+</body>
+</html>
