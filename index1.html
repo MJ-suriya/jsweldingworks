@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triangle Calculator</title>
+    <title>Staircase Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,118 +45,118 @@
 </head>
 <body>
     <div class="container">
-        <h1>Triangle Calculator</h1>
+        <h1>Staircase Calculator</h1>
         
-        <label for="straightLine">Straight Line Measurement (mm):</label>
-        <input type="number" id="straightLine" placeholder="Enter straight line measurement in mm">
-
-        <label for="height">Straight Height (mm):</label>
-        <input type="number" id="height" placeholder="Enter straight height in mm">
+        <label for="height">Total Height (mm):</label>
+        <input type="number" id="height" placeholder="Enter height in mm">
 
         <label for="base">Base Width (feet):</label>
         <input type="number" id="base" placeholder="Enter base width in feet">
 
-        <label for="hypotenuse">Hypotenuse (feet):</label>
+        <label for="topStraight">Top Straight Width (feet):</label>
+        <input type="number" id="topStraight" placeholder="Enter top straight width in feet">
+
+        <label for="hypotenuse">Stair Slope (feet):</label>
         <input type="number" id="hypotenuse" placeholder="Enter hypotenuse in feet">
 
-        <button onclick="calculateTriangle()">Calculate</button>
+        <button onclick="calculateStaircase()">Calculate</button>
 
         <div id="result" class="result"></div>
-        <canvas id="triangleCanvas" width="500" height="500"></canvas>
+        <canvas id="stairCanvas" width="500" height="500"></canvas>
     </div>
 
     <script>
-        function calculateTriangle() {
-            let straightLineMm = parseFloat(document.getElementById('straightLine').value);
+        function calculateStaircase() {
             let heightMm = parseFloat(document.getElementById('height').value);
             let baseFeet = parseFloat(document.getElementById('base').value);
+            let topStraightFeet = parseFloat(document.getElementById('topStraight').value);
             let hypotenuseFeet = parseFloat(document.getElementById('hypotenuse').value);
 
             const feetToMm = 304.8;
             let baseMm = baseFeet ? baseFeet * feetToMm : null;
+            let topStraightMm = topStraightFeet ? topStraightFeet * feetToMm : null;
             let hypotenuseMm = hypotenuseFeet ? hypotenuseFeet * feetToMm : null;
 
-            // Calculate missing values using the Pythagorean theorem
-            if (heightMm && baseMm && !hypotenuseMm) {
-                hypotenuseMm = Math.sqrt(Math.pow(heightMm, 2) + Math.pow(baseMm, 2));
+            // Calculate missing values using Pythagorean theorem
+            if (heightMm && baseMm && topStraightMm && !hypotenuseMm) {
+                hypotenuseMm = Math.sqrt(Math.pow(heightMm, 2) + Math.pow((baseMm - topStraightMm), 2));
             } else if (heightMm && hypotenuseMm && !baseMm) {
-                baseMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow(heightMm, 2));
+                baseMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow(heightMm, 2)) + topStraightMm;
             } else if (baseMm && hypotenuseMm && !heightMm) {
-                heightMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow(baseMm, 2));
+                heightMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow((baseMm - topStraightMm), 2));
             }
 
-            if (!heightMm || !baseMm || !hypotenuseMm) {
-                document.getElementById('result').innerHTML = '<p>Please provide at least two values to calculate the third.</p>';
+            if (!heightMm || !baseMm || !hypotenuseMm || !topStraightMm) {
+                document.getElementById('result').innerHTML = '<p>Please provide at least three values to calculate the fourth.</p>';
                 return;
             }
 
             // Convert back to feet for display if necessary
             baseFeet = baseMm / feetToMm;
+            topStraightFeet = topStraightMm / feetToMm;
             hypotenuseFeet = hypotenuseMm / feetToMm;
 
-            // Calculate angles using trigonometry
-            const angleA = Math.atan(heightMm / baseMm) * (180 / Math.PI); // Opposite/Adjacent
-            const angleB = Math.asin(heightMm / hypotenuseMm) * (180 / Math.PI); // Opposite/Hypotenuse
-            const angleC = 90; // Right angle
+            // Calculate angles
+            const angleA = Math.atan(heightMm / (baseMm - topStraightMm)) * (180 / Math.PI);
+            const angleB = Math.asin(heightMm / hypotenuseMm) * (180 / Math.PI);
+            const angleC = 90;
 
             document.getElementById('result').innerHTML = `
                 <h3>Results:</h3>
-                <p>Straight Line Measurement: ${straightLineMm ? straightLineMm.toFixed(2) : 'N/A'} mm</p>
                 <p>Base Width: ${baseMm.toFixed(2)} mm (${baseFeet.toFixed(2)} feet)</p>
-                <p>Hypotenuse: ${hypotenuseMm.toFixed(2)} mm (${hypotenuseFeet.toFixed(2)} feet)</p>
-                <p>Straight Height: ${heightMm.toFixed(2)} mm</p>
+                <p>Top Straight: ${topStraightMm.toFixed(2)} mm (${topStraightFeet.toFixed(2)} feet)</p>
+                <p>Stair Slope: ${hypotenuseMm.toFixed(2)} mm (${hypotenuseFeet.toFixed(2)} feet)</p>
+                <p>Height (Rise): ${heightMm.toFixed(2)} mm</p>
                 <h4>Angles:</h4>
-                <p>Angle A (Base to Hypotenuse): ${angleA.toFixed(2)}°</p>
-                <p>Angle B (Height to Hypotenuse): ${angleB.toFixed(2)}°</p>
+                <p>Angle A (Base to Slope): ${angleA.toFixed(2)}°</p>
+                <p>Angle B (Height to Slope): ${angleB.toFixed(2)}°</p>
                 <p>Angle C (Right Angle): ${angleC}°</p>
             `;
 
-            drawTriangle(baseMm, heightMm, angleA, angleB, angleC);
+            drawStaircase(baseMm, heightMm, topStraightMm, angleA, angleB, angleC);
         }
 
-        function drawTriangle(base, height, angleA, angleB, angleC) {
-            const canvas = document.getElementById('triangleCanvas');
+        function drawStaircase(base, height, topStraight, angleA, angleB, angleC) {
+            const canvas = document.getElementById('stairCanvas');
             const ctx = canvas.getContext('2d');
 
             // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Scale the triangle to fit within the canvas
+            // Scaling factor
             const padding = 50;
             const scale = Math.min((canvas.width - padding * 2) / base, (canvas.height - padding * 2) / height);
             const scaledBase = base * scale;
             const scaledHeight = height * scale;
+            const scaledTopStraight = topStraight * scale;
 
-            // Draw the triangle
+            // Draw the staircase
             const startX = padding;
             const startY = canvas.height - padding;
 
             ctx.beginPath();
-            ctx.moveTo(startX, startY); // Bottom-left corner (C)
-            ctx.lineTo(startX + scaledBase, startY); // Bottom-right corner (B)
-            ctx.lineTo(startX, startY - scaledHeight); // Top-left corner (A)
+            ctx.moveTo(startX, startY); // Bottom-left corner
+            ctx.lineTo(startX + scaledBase - scaledTopStraight, startY); // Bottom-right corner before top straight
+            ctx.lineTo(startX + scaledBase, startY - scaledTopStraight); // Top straight
+            ctx.lineTo(startX + scaledBase, startY - scaledHeight); // Top height
+            ctx.lineTo(startX, startY - scaledHeight); // Left vertical
             ctx.closePath();
 
             ctx.strokeStyle = '#007BFF';
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            // Label the corners
+            // Label the sides
             ctx.font = '14px Arial';
             ctx.fillStyle = '#000';
             ctx.fillText('A', startX - 10, startY - scaledHeight - 10);
-            ctx.fillText('B', startX + scaledBase + 10, startY + 10);
+            ctx.fillText('B', startX + scaledBase + 10, startY);
             ctx.fillText('C', startX - 20, startY + 10);
+            ctx.fillText('D', startX + scaledBase + 10, startY - scaledHeight);
 
-            // Label the sides (outside)
-            ctx.fillText(`Base (b): ${base.toFixed(2)} mm`, startX + scaledBase / 2 - 40, startY + 20);
-            ctx.fillText(`Height (h): ${height.toFixed(2)} mm`, startX - 80, startY - scaledHeight / 2);
-            ctx.fillText(`Hypotenuse (c): ${Math.sqrt(base ** 2 + height ** 2).toFixed(2)} mm`, startX + scaledBase / 2 - 40, startY - scaledHeight / 2);
-
-            // Label the angles (inside)
-            ctx.fillText(`A: ${angleA.toFixed(2)}°`, startX + 20, startY - scaledHeight + 20);
-            ctx.fillText(`B: ${angleB.toFixed(2)}°`, startX + scaledBase - 60, startY - 20);
-            ctx.fillText(`C: ${angleC}°`, startX + 10, startY - 10);
+            ctx.fillText(`Base: ${base.toFixed(2)} mm`, startX + scaledBase / 2 - 40, startY + 20);
+            ctx.fillText(`Height: ${height.toFixed(2)} mm`, startX - 80, startY - scaledHeight / 2);
+            ctx.fillText(`Slope: ${Math.sqrt(base ** 2 + height ** 2).toFixed(2)} mm`, startX + scaledBase / 2, startY - scaledHeight / 2);
         }
     </script>
 </body>
