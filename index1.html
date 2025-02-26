@@ -46,6 +46,10 @@
 <body>
     <div class="container">
         <h1>Triangle Calculator</h1>
+        
+        <label for="straightLine">Straight Line Measurement (mm):</label>
+        <input type="number" id="straightLine" placeholder="Enter straight line measurement in mm">
+
         <label for="height">Straight Height (mm):</label>
         <input type="number" id="height" placeholder="Enter straight height in mm">
 
@@ -63,6 +67,7 @@
 
     <script>
         function calculateTriangle() {
+            let straightLineMm = parseFloat(document.getElementById('straightLine').value);
             let heightMm = parseFloat(document.getElementById('height').value);
             let baseFeet = parseFloat(document.getElementById('base').value);
             let hypotenuseFeet = parseFloat(document.getElementById('hypotenuse').value);
@@ -96,6 +101,7 @@
 
             document.getElementById('result').innerHTML = `
                 <h3>Results:</h3>
+                <p>Straight Line Measurement: ${straightLineMm ? straightLineMm.toFixed(2) : 'N/A'} mm</p>
                 <p>Base Width: ${baseMm.toFixed(2)} mm (${baseFeet.toFixed(2)} feet)</p>
                 <p>Hypotenuse: ${hypotenuseMm.toFixed(2)} mm (${hypotenuseFeet.toFixed(2)} feet)</p>
                 <p>Straight Height: ${heightMm.toFixed(2)} mm</p>
