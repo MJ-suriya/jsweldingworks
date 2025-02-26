@@ -48,13 +48,16 @@
         <h1>Staircase Calculator</h1>
         
         <label for="height">Total Height (mm):</label>
-        <input type="number" id="height" value="3048" readonly>
+        <input type="number" id="height" placeholder="Enter height in mm">
 
-        <label for="base">Base Width (mm):</label>
-        <input type="number" id="base" value="3048" readonly>
+        <label for="base">Base Width (feet):</label>
+        <input type="number" id="base" placeholder="Enter base width in feet">
 
-        <label for="landing">Landing Width (mm):</label>
-        <input type="number" id="landing" value="600" readonly>
+        <label for="topStraight">Top Straight Width (feet):</label>
+        <input type="number" id="topStraight" placeholder="Enter top straight width in feet">
+
+        <label for="hypotenuse">Stair Slope (feet):</label>
+        <input type="number" id="hypotenuse" placeholder="Enter hypotenuse in feet">
 
         <button onclick="calculateStaircase()">Calculate</button>
 
@@ -64,38 +67,56 @@
 
     <script>
         function calculateStaircase() {
-            let heightMm = 3048;
-            let baseMm = 3048;
-            let landingMm = 600;
+            let heightMm = parseFloat(document.getElementById('height').value);
+            let baseFeet = parseFloat(document.getElementById('base').value);
+            let topStraightFeet = parseFloat(document.getElementById('topStraight').value);
+            let hypotenuseFeet = parseFloat(document.getElementById('hypotenuse').value);
 
-            // Calculate effective base after landing
-            let effectiveBase = baseMm - landingMm;
+            const feetToMm = 304.8;
+            let baseMm = baseFeet ? baseFeet * feetToMm : null;
+            let topStraightMm = topStraightFeet ? topStraightFeet * feetToMm : null;
+            let hypotenuseMm = hypotenuseFeet ? hypotenuseFeet * feetToMm : null;
 
-            // Calculate hypotenuse using Pythagoras theorem
-            let hypotenuse = Math.sqrt(Math.pow(heightMm, 2) + Math.pow(effectiveBase, 2));
+            // Calculate missing values using Pythagorean theorem
+            if (heightMm && baseMm && topStraightMm && !hypotenuseMm) {
+                hypotenuseMm = Math.sqrt(Math.pow(heightMm, 2) + Math.pow((baseMm - topStraightMm), 2));
+            } else if (heightMm && hypotenuseMm && !baseMm) {
+                baseMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow(heightMm, 2)) + topStraightMm;
+            } else if (baseMm && hypotenuseMm && !heightMm) {
+                heightMm = Math.sqrt(Math.pow(hypotenuseMm, 2) - Math.pow((baseMm - topStraightMm), 2));
+            }
+
+            if (!heightMm || !baseMm || !hypotenuseMm || !topStraightMm) {
+                document.getElementById('result').innerHTML = '<p>Please provide at least three values to calculate the fourth.</p>';
+                return;
+            }
+
+            // Convert back to feet for display if necessary
+            baseFeet = baseMm / feetToMm;
+            topStraightFeet = topStraightMm / feetToMm;
+            hypotenuseFeet = hypotenuseMm / feetToMm;
 
             // Calculate angles
-            const angleA = Math.atan(heightMm / effectiveBase) * (180 / Math.PI);
-            const angleB = Math.asin(heightMm / hypotenuse) * (180 / Math.PI);
+            const angleA = Math.atan(heightMm / (baseMm - topStraightMm)) * (180 / Math.PI);
+            const angleB = Math.asin(heightMm / hypotenuseMm) * (180 / Math.PI);
             const angleC = 90;
 
             document.getElementById('result').innerHTML = `
                 <h3>Results:</h3>
-                <p>Base Width: ${baseMm} mm</p>
-                <p>Landing Width: ${landingMm} mm</p>
-                <p>Effective Base: ${effectiveBase} mm</p>
-                <p>Hypotenuse (Stair Slope): ${hypotenuse.toFixed(2)} mm</p>
-                <p>Height (Rise): ${heightMm} mm</p>
+                <p>Base Width: ${baseMm.toFixed(2)} mm (${baseFeet.toFixed(2)} feet)</p>
+                <p>Top Straight: ${topStraightMm.toFixed(2)} mm (${topStraightFeet.toFixed(2)} feet)</p>
+                <p>Stair Slope: ${hypotenuseMm.toFixed(2)} mm (${hypotenuseFeet.toFixed(2)} feet)</p>
+                <p>Height (Rise): ${heightMm.toFixed(2)} mm</p>
                 <h4>Angles:</h4>
                 <p>Angle A (Base to Slope): ${angleA.toFixed(2)}°</p>
                 <p>Angle B (Height to Slope): ${angleB.toFixed(2)}°</p>
                 <p>Angle C (Right Angle): ${angleC}°</p>
             `;
 
-            drawStaircase(effectiveBase, heightMm, landingMm);
+            drawStaircase(baseMm, heightMm, topStraightMm, angleA, angleB, angleC);
         }
 
-        function drawStaircase(base, height, landing) {
+        function drawStaircase(base, height, topStraight, angleA, angleB, angleC) {
             const canvas = document.getElementById('stairCanvas');
             const ctx = canvas.getContext('2d');
 
@@ -104,10 +125,10 @@
 
             // Scaling factor
             const padding = 50;
-            const scale = Math.min((canvas.width - padding * 2) / (base + landing), (canvas.height - padding * 2) / height);
+            const scale = Math.min((canvas.width - padding * 2) / base, (canvas.height - padding * 2) / height);
             const scaledBase = base * scale;
             const scaledHeight = height * scale;
-            const scaledLanding = landing * scale;
+            const scaledTopStraight = topStraight * scale;
 
             // Draw the staircase
             const startX = padding;
@@ -115,8 +136,9 @@
 
             ctx.beginPath();
             ctx.moveTo(startX, startY); // Bottom-left corner
-            ctx.lineTo(startX + scaledBase, startY); // Bottom-right corner before landing
-            ctx.lineTo(startX + scaledBase + scaledLanding, startY - scaledHeight); // Landing and top height
+            ctx.lineTo(startX + scaledBase - scaledTopStraight, startY); // Bottom-right corner before top straight
+            ctx.lineTo(startX + scaledBase, startY - scaledTopStraight); // Top straight
+            ctx.lineTo(startX + scaledBase, startY - scaledHeight); // Top height
             ctx.lineTo(startX, startY - scaledHeight); // Left vertical
             ctx.closePath();
 
@@ -132,8 +154,8 @@
             ctx.fillText('C', startX - 20, startY + 10);
             ctx.fillText('D', startX + scaledBase + 10, startY - scaledHeight);
 
-            ctx.fillText(`Base: ${base} mm`, startX + scaledBase / 2 - 40, startY + 20);
-            ctx.fillText(`Height: ${height} mm`, startX - 80, startY - scaledHeight / 2);
+            ctx.fillText(`Base: ${base.toFixed(2)} mm`, startX + scaledBase / 2 - 40, startY + 20);
+            ctx.fillText(`Height: ${height.toFixed(2)} mm`, startX - 80, startY - scaledHeight / 2);
             ctx.fillText(`Slope: ${Math.sqrt(base ** 2 + height ** 2).toFixed(2)} mm`, startX + scaledBase / 2, startY - scaledHeight / 2);
         }
     </script>
